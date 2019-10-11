@@ -1,0 +1,50 @@
+/*  base
+ *  ------------------------------------*/
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-smoothing: antialiased;
+}
+
+html {
+    font-size: $base-font;
+    height: 100%;
+}
+
+body {
+    line-height: 1;
+}
+
+figure {
+    margin: 0;
+}
+
+img {
+    display: block;
+}
+
+ul,
+li {
+    list-style: none;
+}
+
+[hidden] {
+    display: none!important;
+}
+
+svg:not(:root) {
+    display: block;
+}
+
+.svg-icon-hide {
+    border: 0 !important;
+    clip: rect(0 0 0 0) !important;
+    height: 1px !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    position: absolute !important;
+    width: 1px !important;
+}

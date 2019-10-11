@@ -1,0 +1,33 @@
+/*  Typography
+/*  ------------------------------------*/
+
+%headers {
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+// Common
+@mixin headers {
+    @for $i from 1 through 6 {
+        h#{$i},
+        .h#{$i} {
+            @extend %headers;
+        }
+    }
+}
+@include headers;
+
+// headers
+@each $name, $size in $typography {
+    $fontSize: nth($size, 1);
+    $lineHeight: nth($size, 2);
+    #{$name},
+    .#{$name} {        
+        @if $fontSize !=null {
+            font-size: rem($fontSize);
+        }
+        @if $lineHeight !=null {
+            line-height: $lineHeight;
+        }
+    }
+}
