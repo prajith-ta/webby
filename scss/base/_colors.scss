@@ -1,0 +1,15 @@
+/*  Color class generation
+/*  ------------------------------------*/
+/*  Generate Color class*/
+   @each $theme-name, $theme-values in $colors {
+      .text#{$selector}#{$theme-name} {
+         color: $theme-values;
+      }
+   }
+
+/*  Generate BG class*/
+   @each $theme-name, $theme-values in $colors {
+      .bg#{$selector}#{$theme-name} {
+         background: $theme-values;
+      }
+   }

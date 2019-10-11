@@ -1,0 +1,9 @@
+//  MAP DEEP GET
+//  USAGE: $m-breakpoint: map($theme1, "primary", "base");
+//  ------------------------------------
+    @function map($map, $keys...) {
+        @each $key in $keys {
+            $map: map-get($map, $key);
+        }
+        @return $map;
+    }

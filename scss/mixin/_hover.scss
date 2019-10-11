@@ -1,0 +1,10 @@
+//  HOVER
+//  include hover;
+//  ------------------------------------
+    @mixin hover() {
+        &:hover,
+        &:focus,
+        &:active {
+            @content
+        }
+    }
