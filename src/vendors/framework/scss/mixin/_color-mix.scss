@@ -1,0 +1,11 @@
+//  TINT AND SHADE
+//  ------------------------------------
+    //  TINT
+    @function tint($color, $percentage) {
+        @return mix(white, $color, $percentage);
+    }
+
+    //  SHADE
+    @function shade($color, $percentage) {
+        @return mix(black, $color, $percentage);
+    }
