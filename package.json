@@ -1,0 +1,19 @@
+{
+  "name": "@prajith-ta/webby",
+  "version": "2.0.0",
+  "description": "A tiny css framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prajith-ta/webby.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/prajith-ta/webby/issues"
+  },
+  "homepage": "https://github.com/prajith-ta/webby#readme"
+}
