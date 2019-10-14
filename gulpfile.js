@@ -103,7 +103,7 @@ function css() {
 //  image
 //  -----------------------------------------------------------
 var imgSrc = root + 'src/image/**/*.+(png|gif|jpg|jpeg)',
-	imgAlphaSrc = [root + 'src/image/**/*.+(png|gif|jpg|jpeg)', '!src/image/**/*.alpha.+(png|gif)'],
+	imgAlphaSrc = [root + 'src/image/**/*.+(png|gif|jpg|jpeg)', '!src/image/**/*-alpha.+(png|gif)'],
 	imgDist = root + 'dist/image/';
 function imgMin() {
 	return mergeStream(
@@ -168,6 +168,18 @@ var iconSrc = root + 'src/image/icon/**/*.svg',
 function icon() {
 	return mergeStream(
 		gulp.src(iconSrc)
+			.pipe(svgmin(function (file) {
+				var prefix = path.basename(file.relative, path.extname(file.relative));
+				return {
+					plugins: [{
+						//removeViewBox: false,
+						cleanupIDs: {
+							prefix: prefix + '-',
+							minify: true
+						},
+					}]
+				}
+			}))
 			.pipe(rename({ prefix: "icon-" }))
 			.pipe(svgstore({ inlineSvg: true }))
 			.pipe(rename('icon.svg'))
@@ -206,13 +218,6 @@ function html() {
 		.pipe(gulp.dest(htmlDist));
 }
 
-//  Temporary files which deleted after task
-//  -----------------------------------------------------------
-var tempSrc = root + 'dist/image/svg/icon';
-function temp() {
-	return del(tempSrc);
-}
-
 //  Watch & reload
 //  -----------------------------------------------------------
 function watchFile() {
@@ -231,7 +236,7 @@ function watchFile() {
 	gulp.watch([htmlDist, jsDist + '**/*.js', cssDist + '**/*.css']).on('change', browserSync.reload);
 }
 
-const build = gulp.series(clean, copy, vendor, svgMin, icon, jsMin, css, html, temp, gulp.parallel(imgMin));
+const build = gulp.series(clean, copy, vendor, svgMin, icon, jsMin, css, html, gulp.parallel(imgMin));
 const watch = gulp.series(watchFile);
 
 // export tasks
@@ -243,7 +248,6 @@ exports.imgMin = imgMin;
 exports.svgMin = svgMin;
 exports.icon = icon;
 exports.html = html;
-exports.temp = temp;
 exports.clean = clean;
 exports.build = build;
 exports.watch = watch;
