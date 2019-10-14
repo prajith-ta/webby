@@ -4,31 +4,31 @@
 //      done();
 //  });
 var gulp = require('gulp'), // npm i gulp --save-dev
-		sass = require('gulp-sass'), // npm i gulp-sass
-		autoprefixer = require('gulp-autoprefixer'), // npm i gulp-autoprefixer
-		cleanCSS = require('gulp-clean-css'), // npm i gulp-clean-css    
-		browserSync = require('browser-sync').create(), // npm i browser-sync
-		reload = browserSync.reload,
-		del = require("del"), // npm i del
-		sourcemaps = require('gulp-sourcemaps'), // npm i gulp-sourcemaps
-		concat = require('gulp-concat'), // npm i gulp-concat
-		imagemin = require('gulp-imagemin'), // npm i gulp-imagemin
-		imageminGuetzli = require('imagemin-guetzli'), // npm i imagemin-guetzli
-		changed = require('gulp-changed'), // npm i gulp-changed
-		uglify = require('gulp-uglify'), // npm i gulp-uglify
-		lineec = require('gulp-line-ending-corrector'), // npm i gulp-line-ending-corrector
-		inlinesource = require('gulp-inline-source'), // npm i gulp-inline-source
-		rename = require('gulp-rename'), // npm i gulp-rename
-		embedSvg = require('gulp-embed-svg'), // npm i gulp-embed-svg
-		svgstore = require('gulp-svgstore'), // npm i gulp-svgstore
-		svgmin = require('gulp-svgmin'), // npm i gulp-svgmin
-		svgSprite = require('gulp-svg-sprites'), // npm i gulp-svg-sprites
-		cheerio = require('gulp-cheerio'), // npm i gulp-cheerio
-		path = require('path'), // npm i path
-		htmlmin = require('gulp-htmlmin'), // npm i gulp-htmlmin
-		mergeStream = require('merge-stream'), // npm i merge-stream
-		filesExist = require('files-exist'),
-		critical = require('critical').stream;
+	sass = require('gulp-sass'), // npm i gulp-sass
+	autoprefixer = require('gulp-autoprefixer'), // npm i gulp-autoprefixer
+	cleanCSS = require('gulp-clean-css'), // npm i gulp-clean-css    
+	browserSync = require('browser-sync').create(), // npm i browser-sync
+	reload = browserSync.reload,
+	del = require("del"), // npm i del
+	sourcemaps = require('gulp-sourcemaps'), // npm i gulp-sourcemaps
+	concat = require('gulp-concat'), // npm i gulp-concat
+	imagemin = require('gulp-imagemin'), // npm i gulp-imagemin
+	imageminGuetzli = require('imagemin-guetzli'), // npm i imagemin-guetzli
+	changed = require('gulp-changed'), // npm i gulp-changed
+	uglify = require('gulp-uglify'), // npm i gulp-uglify
+	lineec = require('gulp-line-ending-corrector'), // npm i gulp-line-ending-corrector
+	inlinesource = require('gulp-inline-source'), // npm i gulp-inline-source
+	rename = require('gulp-rename'), // npm i gulp-rename
+	embedSvg = require('gulp-embed-svg'), // npm i gulp-embed-svg
+	svgstore = require('gulp-svgstore'), // npm i gulp-svgstore
+	svgmin = require('gulp-svgmin'), // npm i gulp-svgmin
+	svgSprite = require('gulp-svg-sprites'), // npm i gulp-svg-sprites
+	cheerio = require('gulp-cheerio'), // npm i gulp-cheerio
+	path = require('path'), // npm i path
+	htmlmin = require('gulp-htmlmin'), // npm i gulp-htmlmin
+	mergeStream = require('merge-stream'), // npm i merge-stream
+	filesExist = require('files-exist'),
+	critical = require('critical').stream;
 
 //  Path
 //  -----------------------------------------------------------
@@ -54,8 +54,8 @@ function copy() {
 //  Copy Vendor
 //  -----------------------------------------------------------
 var vendorSrc = root + 'node_modules/bootstrap/**/*',
-		vendorDist = root + 'src/vendors/';
-function vendors() {
+	vendorDist = root + 'src/vendor/';
+function vendor() {
 	return gulp.src(vendorSrc, { base: "node_modules" })
 		.pipe(gulp.dest(vendorDist))
 }
@@ -82,7 +82,6 @@ function jsMin() {
 }
 
 //  CSS
-//  Convert, autoprefix, sourcemap SCSS to CSS
 //  -----------------------------------------------------------
 var cssSrc = root + 'src/scss/**/*.scss',
 	cssDist = root + 'dist/css/';
@@ -101,12 +100,11 @@ function css() {
 		.pipe(gulp.dest(cssDist));
 }
 
-//  Images
-//  Optimize Images
+//  image
 //  -----------------------------------------------------------
-var imgSrc = root + 'src/images/**/*.+(png|gif|jpg|jpeg)',
-	imgAlphaSrc = ([root + 'src/images/**/*.+(png|gif|jpg|jpeg)', '!src/images/**/*.alpha.+(png|gif)']),
-	imgDist = root + 'dist/images/';
+var imgSrc = root + 'src/image/**/*.+(png|gif|jpg|jpeg)',
+	imgAlphaSrc = [root + 'src/image/**/*.+(png|gif|jpg|jpeg)', '!src/image/**/*.alpha.+(png|gif)'],
+	imgDist = root + 'dist/image/';
 function imgMin() {
 	return mergeStream(
 		gulp.src(imgSrc)
@@ -128,8 +126,8 @@ function imgMin() {
 
 //  SVG Minify
 //  -----------------------------------------------------------
-var svgSrc = root + 'src/images/svg/**/*.svg',
-	svgDist = root + 'dist/images/svg';
+var svgSrc = root + 'src/image/svg/**/*.svg',
+	svgDist = root + 'dist/image/svg';
 function svgMin() {
 	return gulp.src(svgSrc)
 		.pipe(svgmin(function (file) {
@@ -161,30 +159,31 @@ function svgMin() {
 		.pipe(gulp.dest(svgDist));
 }
 
+//	icon generator
 //  SVG Sprite & Sprite Preview
 //  -----------------------------------------------------------
-var svgSpriteSrc = root + 'src/images/svg/icons/**/*.svg',
-	svgSpriteDist = root + 'dist/images/svg/sprites',
-	svgSpritePreviewDist = root + 'dist/images/svg/sprites/preview';
-function svgSpriteIcons() {
+var iconSrc = root + 'src/image/icon/**/*.svg',
+	iconDist = root + 'dist/image/icon',
+	iconPreviewDist = root + 'dist/image/icon-preview';
+function icon() {
 	return mergeStream(
-		gulp.src(svgSpriteSrc)
+		gulp.src(iconSrc)
 			.pipe(rename({ prefix: "icon-" }))
 			.pipe(svgstore({ inlineSvg: true }))
-			.pipe(rename('icons.svg'))
+			.pipe(rename('icon.svg'))
 			.pipe(cheerio({
 				run: function ($, file) {
 					$("svg").attr("class", "svg-icon-hide"); /* Dont use display: none */
 				},
 				parseOptions: { xmlMode: true }
 			}))
-			.pipe(gulp.dest(svgSpriteDist)),
+			.pipe(gulp.dest(iconDist)),
 
 		// Sprite preview
-		gulp.src(svgSpriteSrc)
+		gulp.src(iconSrc)
 			.pipe(rename({ prefix: "icon-" }))
 			.pipe(svgSprite({ mode: "symbols" }))
-			.pipe(gulp.dest(svgSpritePreviewDist))
+			.pipe(gulp.dest(iconPreviewDist))
 	);
 }
 
@@ -192,7 +191,7 @@ function svgSpriteIcons() {
 //  -----------------------------------------------------------
 var htmlSrc = root + 'src/**/*.html',
 	htmlDist = root + 'dist/';
-function htmlInline() {
+function html() {
 	return gulp.src(htmlSrc)
 		.pipe(inlinesource())
 		.pipe(embedSvg({
@@ -209,42 +208,41 @@ function htmlInline() {
 
 //  Temporary files which deleted after task
 //  -----------------------------------------------------------
-var tempSrc = root + 'dist/images/svg/icons';
+var tempSrc = root + 'dist/image/svg/icon';
 function temp() {
 	return del(tempSrc);
 }
 
 //  Watch & reload
 //  -----------------------------------------------------------
-function watchFiles() {
+function watchFile() {
 	browserSync.init({
 		server: {
 			baseDir: "./dist/"
 		}
 	});
-	gulp.watch(cssSrc, gulp.series([css, htmlInline]));
+	gulp.watch(cssSrc, gulp.series([css, html]));
 	gulp.watch(jsSrc, jsMin);
 	gulp.watch(imgSrc, imgMin);
-	//gulp.watch(svgSrc, gulp.series([svgMin, svgSpriteIcons]));
+	//gulp.watch(svgSrc, gulp.series([svgMin, icon]));
 	gulp.watch(svgSrc, svgMin);
-	gulp.watch(svgSpriteSrc, svgSpriteIcons);
-	gulp.watch(htmlSrc, htmlInline);
-	gulp.watch(tempSrc, temp);
+	gulp.watch(iconSrc, icon);
+	gulp.watch(htmlSrc, html);
 	gulp.watch([htmlDist, jsDist + '**/*.js', cssDist + '**/*.css']).on('change', browserSync.reload);
 }
 
-const build = gulp.series(clean, copy, vendors, svgMin, svgSpriteIcons, jsMin, css, htmlInline, temp, gulp.parallel(imgMin));
-const watch = gulp.series(watchFiles);
+const build = gulp.series(clean, copy, vendor, svgMin, icon, jsMin, css, html, temp, gulp.parallel(imgMin));
+const watch = gulp.series(watchFile);
 
 // export tasks
 exports.css = css;
 exports.copy = copy;
-exports.vendors = vendors;
+exports.vendor = vendor;
 exports.jsMin = jsMin;
 exports.imgMin = imgMin;
 exports.svgMin = svgMin;
-exports.svgSpriteIcons = svgSpriteIcons;
-exports.htmlInline = htmlInline;
+exports.icon = icon;
+exports.html = html;
 exports.temp = temp;
 exports.clean = clean;
 exports.build = build;
