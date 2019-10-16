@@ -1,4 +1,4 @@
-//  npm i gulp --save-dev gulp-sass gulp-autoprefixer gulp-clean-css browser-sync del gulp-sourcemaps gulp-concat gulp-imagemin imagemin-guetzli gulp-changed gulp-uglify gulp-line-ending-corrector gulp-inline-source gulp-rename gulp-embed-svg gulp-svgstore gulp-svgmin gulp-svg-sprites gulp-cheerio path gulp-htmlmin merge-stream
+//  npm i gulp --save-dev gulp-sass gulp-autoprefixer gulp-clean-css browser-sync del gulp-sourcemaps gulp-concat gulp-imagemin imagemin-guetzli gulp-changed gulp-uglify gulp-line-ending-corrector gulp-inline-source gulp-rename gulp-embed-svg gulp-svgstore gulp-svgmin gulp-svg-sprites gulp-cheerio path gulp-htmlmin merge-stream critical
 //  gulp.task('hello', done => {
 //      console.log('Hello Zell');
 //      done();
@@ -27,7 +27,6 @@ var gulp = require('gulp'), // npm i gulp --save-dev
 	path = require('path'), // npm i path
 	htmlmin = require('gulp-htmlmin'), // npm i gulp-htmlmin
 	mergeStream = require('merge-stream'), // npm i merge-stream
-	filesExist = require('files-exist'),
 	critical = require('critical').stream;
 
 //  Path
@@ -100,7 +99,7 @@ function css() {
 		.pipe(gulp.dest(cssDist));
 }
 
-//  image
+//  Image
 //  -----------------------------------------------------------
 var imgSrc = root + 'src/image/**/*.+(png|gif|jpg|jpeg)',
 	imgAlphaSrc = [root + 'src/image/**/*.+(png|gif|jpg|jpeg)', '!src/image/**/*-alpha.+(png|gif)'],
@@ -134,32 +133,35 @@ function svgMin() {
 			var prefix = path.basename(file.relative, path.extname(file.relative));
 			return {
 				plugins: [{
-					//removeViewBox: false,
 					cleanupIDs: {
 						prefix: prefix + '-',
 						minify: true
-					},
+					},					
 				}]
 			}
-		}))
+		}))		
 		.pipe(cheerio({
 			run: function ($) {
 				var getsvgWidth = $('svg').attr("width");
 				var getsvgHeight = $('svg').attr("height");
 				var getsvgViewbox = $('svg').attr("viewBox");
-				var createViewportfromwh = '0 0' + ' ' + getsvgWidth + ' ' + getsvgHeight; // If width & height available and no viewBox
-				var createViewport = getsvgViewbox; // If viewBox available and no width & height
-				//console.log(createViewport);
+				// If width & height available and no viewBox
+				var createViewportfromwh = '0 0' + ' ' + getsvgWidth + ' ' + getsvgHeight;
+				// If viewBox available and no width & height
+				var createViewport = getsvgViewbox;
+				//	Add viewbox
 				$('svg').attr('viewBox', createViewportfromwh);
 				$('svg').attr('viewBox', createViewport);
+				//	Remove width & height
+				$('[width]').removeAttr('width');
+				$('[height]').removeAttr('height');
 			},
 			parserOptions: { xmlMode: true }
 		}))
-		//.pipe(rename({ prefix: "icon-" }))
 		.pipe(gulp.dest(svgDist));
 }
 
-//	icon generator
+//	Icon generator
 //  SVG Sprite & Sprite Preview
 //  -----------------------------------------------------------
 var iconSrc = root + 'src/image/icon/**/*.svg',
@@ -180,6 +182,19 @@ function icon() {
 					}]
 				}
 			}))
+			.pipe(cheerio({
+				run: function ($) {
+					var getsvgWidth = $('svg').attr("width");
+					var getsvgHeight = $('svg').attr("height");
+					var getsvgViewbox = $('svg').attr("viewBox");
+					var createViewportfromwh = '0 0' + ' ' + getsvgWidth + ' ' + getsvgHeight; // If width & height available and no viewBox
+					var createViewport = getsvgViewbox; // If viewBox available and no width & height
+					//console.log(createViewport);
+					$('svg').attr('viewBox', createViewportfromwh);
+					$('svg').attr('viewBox', createViewport);
+				},
+				parserOptions: { xmlMode: true }
+			}))
 			.pipe(rename({ prefix: "icon-" }))
 			.pipe(svgstore({ inlineSvg: true }))
 			.pipe(rename('icon.svg'))
@@ -189,7 +204,7 @@ function icon() {
 				},
 				parseOptions: { xmlMode: true }
 			}))
-			.pipe(gulp.dest(iconDist)),
+			.pipe(gulp.dest(iconDist)),			
 
 		// Sprite preview
 		gulp.src(iconSrc)
@@ -236,10 +251,11 @@ function watchFile() {
 	gulp.watch([htmlDist, jsDist + '**/*.js', cssDist + '**/*.css']).on('change', browserSync.reload);
 }
 
+//	Run
 const build = gulp.series(clean, copy, vendor, svgMin, icon, jsMin, css, html, gulp.parallel(imgMin));
 const watch = gulp.series(watchFile);
 
-// export tasks
+// Export tasks
 exports.css = css;
 exports.copy = copy;
 exports.vendor = vendor;
