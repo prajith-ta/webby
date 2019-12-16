@@ -1,72 +1,104 @@
 //  CONFIG
 //  ----------------------------------------------------------
-  $base-font: 62.5%; //Use 'px', 'em' or '%'
-  $selector: '-';
-  $mod: '--';
-  $child: '__';
+$base-font: 62.5%; //Use 'px', 'em' or '%'
+$selector: '-';
+$mod: '--';
+$child: '__';
 
 //  Colors
 //  Converting this to CSS Variables
-$colors: (
-  primary:    red,
-  secondary:  blue,
-  accent:     #ddd,
-  white:      #fff,
-  black:      #000
-)!default;
+$colors: () !default;
+$colors: map-merge(
+  (
+    primary:      green,
+    secondary:    blue,
+    accent:       #ddd,
+    white:        #fff,
+    dark:         #1E2331,
+    dark-lighter: #292E3C,
+    dark-lightest:#353946,
+    dark-darker:  #171A25,
+    dark-darkest: #0F1118
+  ),
+  $colors
+);
+
+$bg: #1E2331;
+$text: #E6E6E6;
+$text-light: #E6E6E6;
+$text-lighter: #E6E6E6;
 
 //  Typography
 //  Converting this to CSS Variables
-$typography: (
-  h1: (48px, 1.2),
-  h2: (32px, 1.2),
-  h3: (24px, null),
-  h4: (20px, null),
-  h5: (18px, null),
-  h6: (null, null)
-)!default;
+$typography: () !default;
+$typography: map-merge(
+  (
+    h1: (48px, 1.5),
+    h2: (32px, 1.5),
+    h3: (24px, 1.5),
+    h4: (20px, 1.5),
+    h5: (18px, null),
+    h6: (null, null)
+  ),
+  $typography
+);
 
 //  Container
-$container: (
-  'xs': (540px, null),
-  'sm': (720px, 30px),
-  'md': (980px, null),
-  'lg': (1200px, null),
-  'xl': (1440px 16px)
-)!default;
+$container: () !default;
+$container: map-merge(
+  (
+    'xs': (540px, null),
+    'sm': (720px, 30px),
+    'md': (980px, null),
+    'lg': (1200px, null),
+    'xl': (1440px 16px)
+  ),
+  $container
+);
 
 //  Spacing
+//  helpers/spacers.scss
 //  Converting this to CSS Variables
-$spacer: (
-  0: 0,
-  1: 4px,
-  2: 8px,
-  3: 12px,
-  4: 16px,
-  5: 20px,
-  6: 24px,
-  7: 28px,
-  8: 32px
-)!default;
+$spacer: () !default;
+$spacer: map-merge(
+  (
+    0: 0,
+    1: 4px,
+    2: 8px,
+    3: 12px,
+    4: 16px,
+    5: 20px,
+    6: 24px,
+    7: 28px,
+    8: 32px
+  ),
+  $spacer
+);
 
 //  Display
+//  helpers/display.scss
 $display: block inline-block flex none table table-row table-cell;
 
 //  Icon
+//  helpers/icon.scss
 $icon: 12 16 20 24 32 48 60;
 
 //  Breakpoint
-$breakpoints: (
-  'xs': 580px,
-  'sm': 768px,
-  'md': 992px,
-  'lg': 1366px,
-  'xl': 1600px
-)!default;
+$breakpoints: () !default;
+$breakpoints: map-merge(
+  (
+    'xs': 580px,
+    'sm': 768px,
+    'md': 992px,
+    'lg': 1366px,
+    'xl': 1600px
+  ),
+  $breakpoints
+);
 
 //  Grid
 $row: (
-  parent-name: 'row',
-  child-name: 'col',
-  column: 12,
+parent-name: 'row',
+child-name: 'col',
+column: 12,
 ) !default;

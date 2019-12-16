@@ -1,6 +1,7 @@
 $colors: (
-    primary:    gold,
+   primary: #FBD828,
 );
-
 //  config
 @import 'framework.scss';
+//  pages
+@import 'pages/home.scss';

@@ -2,12 +2,12 @@
 /*  ------------------------------------*/
 @each $size in $icon {
     .icon-#{$size} {
-        Width: $size + px;
-        height: $size + px;
-        display: inline-flex;
+        Width: rem($size);
+        height: rem($size);        
     }
 }
 [class^="icon-"] {
+    display: inline-flex;
     svg {
         fill: currentColor;
     }

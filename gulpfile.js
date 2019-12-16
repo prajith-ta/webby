@@ -27,7 +27,7 @@ var gulp = require('gulp'), // npm i gulp --save-dev
 	path = require('path'), // npm i path
 	htmlmin = require('gulp-htmlmin'), // npm i gulp-htmlmin
 	mergeStream = require('merge-stream'), // npm i merge-stream
-	critical = require('critical').stream;
+	critical = require('critical').stream; // npm i critical
 
 //  Path
 //  -----------------------------------------------------------

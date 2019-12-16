@@ -4,8 +4,7 @@
     /*  Generate Color*/
     @each $theme-name, $theme-values in $colors {
        #{"--"}#{$theme-name}: $theme-values;
-    }
- 
+    } 
     /*  Generate gap*/
     @each $theme-name, $theme-values in $spacer {
        #{"--"}spacer-#{$theme-name}: $theme-values;

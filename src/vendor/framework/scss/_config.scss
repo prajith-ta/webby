@@ -8,20 +8,25 @@
 //  Colors
 //  Converting this to CSS Variables
 $colors: (
-  primary:    red,
-  secondary:  blue,
-  accent:     #ddd,
-  white:      #fff,
-  black:      #000
-)!default;
+  primary:      red,
+  secondary:    blue,
+  accent:       #ddd,
+  white:        #fff,
+  dark:         #1E2331,
+  dark-lighter: #292E3C,
+  dark-lightest:#353946,
+  dark-darker:  #171A25,
+  dark-darkest: #0F1118
+) !default;
+
 
 //  Typography
 //  Converting this to CSS Variables
 $typography: (
-  h1: (48px, 1.2),
-  h2: (32px, 1.2),
-  h3: (24px, null),
-  h4: (20px, null),
+  h1: (48px, 1.5),
+  h2: (32px, 1.5),
+  h3: (24px, 1.5),
+  h4: (20px, 1.5),
   h5: (18px, null),
   h6: (null, null)
 )!default;
@@ -36,6 +41,7 @@ $container: (
 )!default;
 
 //  Spacing
+//  helpers/spacers.scss
 //  Converting this to CSS Variables
 $spacer: (
   0: 0,
@@ -50,9 +56,11 @@ $spacer: (
 )!default;
 
 //  Display
+//  helpers/display.scss
 $display: block inline-block flex none table table-row table-cell;
 
 //  Icon
+//  helpers/icon.scss
 $icon: 12 16 20 24 32 48 60;
 
 //  Breakpoint
