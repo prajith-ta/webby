@@ -1,11 +1,14 @@
 body {
     background-color: #1E2331;
 }
+.page {
+    min-height: 100vh;
+}
 .nav-home {
     flex: 0 0 rem(320px);
     background-color: #292E3C;
 }
 .main-home {
-    flex: 1 1 fill;
+    flex: 1 1 auto;
     min-width: 0;
 }

@@ -33,12 +33,12 @@ $text-lighter: #E6E6E6;
 $typography: () !default;
 $typography: map-merge(
   (
-    h1: (48px, 1.5),
-    h2: (32px, 1.5),
-    h3: (24px, 1.5),
-    h4: (20px, 1.5),
-    h5: (18px, null),
-    h6: (null, null)
+    h1: (40px, 1.2),
+    h2: (36px, 1.2),
+    h3: (32px, 1.2),
+    h4: (24px, 1.2),
+    h5: (20px, null),
+    h6: (18px, null)
   ),
   $typography
 );
