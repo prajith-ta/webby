@@ -23,10 +23,10 @@ $colors: map-merge(
   $colors
 );
 
-$bg: #1E2331;
-$text: #E6E6E6;
-$text-light: #E6E6E6;
-$text-lighter: #E6E6E6;
+$bg: map-get($colors, dark);
+$text: map-get($colors, white);;
+$text-light: rgba(map-get($colors, white), .6);
+$text-lighter: map-get($colors, white);
 
 //  Typography
 //  Converting this to CSS Variables
@@ -98,7 +98,7 @@ $breakpoints: map-merge(
 
 //  Grid
 $row: (
-parent-name: 'row',
-child-name: 'col',
-column: 12,
+  parent-name: 'row',
+  child-name: 'col',
+  column: 12,
 ) !default;

@@ -2,6 +2,7 @@ $colors: (
    primary: #FBD828,
 );
 //  config
-@import 'framework.scss';
+@import 'framework';
 //  pages
-@import 'pages/home.scss';
+@import 'pages/home/home',
+        'pages/home/navigation';
